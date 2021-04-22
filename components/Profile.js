@@ -1,7 +1,8 @@
 import { Container, Content, List, ListItem,Switch } from 'native-base'
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import {View,Text,StyleSheet, Touchable, TouchableOpacity} from 'react-native'
 export default function Profile() {
+ 
     return (
         <Container>
         <Content>

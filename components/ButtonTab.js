@@ -6,18 +6,19 @@ import Home from './Home';
 import Profile from './Profile';
 import AddStack from './AddStack';
 import ProfileStack from './ProfileStack';
+import HomeStack from './HomeStack';
 
 const Tab = createMaterialBottomTabNavigator();
 export default function ButtonTab() {
     return (
         <Tab.Navigator
-            initialRouteName="Home"
+            initialRouteName="HomeStack"
             activeColor="blue"
             barStyle={{ backgroundColor: '#ffff',height:70}}
         >
             <Tab.Screen
-                name="Home"
-                component={Home}
+                name="HomeStack"
+                component={HomeStack}
                 options={{
                     tabBarLabel: 'Home',
                     tabBarIcon: ({ color }) => (

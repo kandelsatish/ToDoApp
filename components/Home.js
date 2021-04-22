@@ -1,31 +1,48 @@
-import React from 'react'
-import { View, StyleSheet, StatusBar } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { View, StyleSheet, StatusBar, FlatList, ScrollView } from 'react-native'
 import { Body, Card, CardItem, Container, Content, Header, Text } from 'native-base'
 import Todo from './Todo'
-// const Todo=()=>{
-//     return(
-//         <Container style={styles.container}>
-//         <Content>
-//           <Card>
-//             <CardItem>
-//               <Body>
-//                 <Text>
-//                    //Your text here
-//                 </Text>
-//               </Body>
-//             </CardItem>
-//           </Card>
-//         </Content>
-//       </Container>
-//     )
-// }
+import { openDatabase } from 'react-native-sqlite-storage'
 
-export default function Home() {
+var db = openDatabase({ name: "todo.db", createFromLocation: 1 });
+
+export default function Home({navigation}) {
+    let [listoftodo, setlistoftodo] = useState([]);
+    let [change,setChanged]=useState(false);
+    console.log(listoftodo);
+    useEffect(() => {
+        db.transaction((tx) => {
+            tx.executeSql('SELECT * FROM TodoList',
+                [],
+                (tx, results) => {
+                    var temp = [];
+                    for (let i = 0; i < results.rows.length; ++i)
+                        temp.push(results.rows.item(i));
+                    setlistoftodo(temp);
+                });
+        });
+    }, [change])
+
+    const removeFromList=(id)=>{
+        listoftodo.filter( (item) =>{
+            return item.id==id;
+        })
+        setChanged(!change)
+    }
+
     return (
-        <View style={styles.container}>
-            <StatusBar backgroundColor="#1a355b"/>
-            <Todo />
-        </View>
+        <ScrollView>
+            <View style={styles.container}>
+                <StatusBar backgroundColor="#1a355b"/>
+                {listoftodo.map((item) => {
+                    return ( <Todo key={item.id} 
+                        item={item} 
+                        removeFromList={removeFromList}
+                        navigation={navigation}
+                        />)
+                })}
+            </View>
+        </ScrollView>
     )
 }
 
@@ -33,7 +50,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        padding:5
+        padding: 5
 
     }
 })
