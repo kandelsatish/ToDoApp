@@ -19,11 +19,19 @@ export default function Home({navigation}) {
         })
         setChanged(!change)
     }
+    const Empty=()=>{
+        return(
+            <View style={{flex:1,justifyContent:'center',alignItems:'center',marginTop:100}}>
+                <Text>Nothing To show ! Add some items</Text>
+            </View>
+        )
+    }
 
     return (
         <ScrollView>
             <View style={styles.container}>
                 <StatusBar backgroundColor="#1a355b"/>
+                {listoftodo.length==0 ? <Empty/>: null}
                 {listoftodo.map((item) => {
                     return ( <Todo key={item.id} 
                         item={item} 

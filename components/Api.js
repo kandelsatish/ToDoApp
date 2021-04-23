@@ -40,3 +40,13 @@ const update_todo = (todoname,todoid) => {
             );
         });
     };
+
+
+    const storeData = async (value) => {
+        try {
+          const jsonValue = JSON.stringify(value)
+          await AsyncStorage.setItem('@storage_Key', jsonValue)
+        } catch (e) {
+            console.log(e);
+        }
+      }

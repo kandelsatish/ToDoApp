@@ -2,7 +2,6 @@ import { Container, Content, List, ListItem,Switch } from 'native-base'
 import React,{useEffect,useState} from 'react'
 import {View,Text,StyleSheet, Touchable, TouchableOpacity} from 'react-native'
 export default function Profile() {
- 
     return (
         <Container>
         <Content>
@@ -20,7 +19,7 @@ export default function Profile() {
               <Text style={style.text}>Total remaining taska 23</Text>
             </ListItem>
             <ListItem>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>alert("Are you sure you want to logout ?")}>
               <Text style={style.text}>Log Out</Text>
               </TouchableOpacity>
             </ListItem>
