@@ -19,7 +19,7 @@ export default function InputForm({add_todo}) {
     return (
         <View style={styles.container}>
             <View style={styles.form}>
-                <TextInput placeholder="Add Item to add" style={styles.textInput} onChangeText={(val) => setTodo(val)} />
+                <TextInput placeholder="Add Item to add" style={styles.textInput} onChangeText={(val) => setTodo(val)} value={todo}/>
                 <TouchableOpacity style={styles.btn} onPress={() => handleAddition()}>
                     <FontAwesome name="plus" size={30} color={'blue'} />
                 </TouchableOpacity>

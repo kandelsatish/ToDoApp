@@ -1,27 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useContext } from 'react'
 import { View, StyleSheet, StatusBar, FlatList, ScrollView } from 'react-native'
 import { Body, Card, CardItem, Container, Content, Header, Text } from 'native-base'
 import Todo from './Todo'
-import { openDatabase } from 'react-native-sqlite-storage'
-
-var db = openDatabase({ name: "todo.db", createFromLocation: 1 });
-
+import {view_all} from './Api'
+import {Contx} from './GlobalState'
 export default function Home({navigation}) {
+    const {change,setChanged}=useContext(Contx);
     let [listoftodo, setlistoftodo] = useState([]);
-    let [change,setChanged]=useState(false);
     console.log(listoftodo);
-    useEffect(() => {
-        db.transaction((tx) => {
-            tx.executeSql('SELECT * FROM TodoList',
-                [],
-                (tx, results) => {
-                    var temp = [];
-                    for (let i = 0; i < results.rows.length; ++i)
-                        temp.push(results.rows.item(i));
-                    setlistoftodo(temp);
-                });
-        });
-    }, [change])
+
+    useEffect(()=>{
+        view_all(setlistoftodo);
+    },[change])
 
     const removeFromList=(id)=>{
         listoftodo.filter( (item) =>{

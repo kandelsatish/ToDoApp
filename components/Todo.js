@@ -1,10 +1,14 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import { Alert, StyleSheet, Touchable, TouchableOpacity } from 'react-native'
 import { Body, Card, Textarea, CardItem, Container, Content, Header, Text, View } from 'native-base'
 import {openDatabase} from 'react-native-sqlite-storage'
 import Entypo from 'react-native-vector-icons/Entypo'
+import {Contx} from './GlobalState'
+// import {update_todo} from './Api'
+
 var db = openDatabase({ name: "todo.db", createFromLocation: 1 });
 export default function Todo({navigation,item,removeFromList}) {
+    const {change,setChanged}=useContext(Contx);
     const {id}=item;
     console.log(id);
     let delete_todo = (id) => {
@@ -21,7 +25,6 @@ export default function Todo({navigation,item,removeFromList}) {
                             [
                                 {
                                     text: 'Ok',
-                                    //   onPress: () => navigation.navigate('HomeScreen'),
                                 },
                             ],
                             { cancelable: false },
@@ -39,7 +42,7 @@ export default function Todo({navigation,item,removeFromList}) {
         delete_todo(id);
     }
 
-    let update_todo = (todoname,todoid) => {
+    const  update_todo = (todoname,todoid) => {
         db.transaction((tx) => {
             tx.executeSql(
                 'UPDATE  TodoList SET todo_name=? WHERE id=?',
@@ -58,6 +61,7 @@ export default function Todo({navigation,item,removeFromList}) {
                             ],
                             { cancelable: false },
                         );
+                        setChanged(!change)
                     } else {
                         alert('Sorry something went wrong');
                     }

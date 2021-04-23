@@ -1,12 +1,13 @@
 import { Container, Content } from 'native-base'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useContext } from 'react'
 import { View, Text, StyleSheet, Alert, Keyboard } from 'react-native'
 import InputForm from './InputForm'
 import {openDatabase} from 'react-native-sqlite-storage'
-
+import {Contx} from './GlobalState'
 var db=openDatabase({name:"todo.db" ,createFromLocation : 1});
 
 export default function Add() {
+    const {change,setChanged}=useContext(Contx);
     const [todoname, setTodoName] = useState('');
     const add_todo = (todoname) => {
         db.transaction(function (tx) {
@@ -26,6 +27,7 @@ export default function Add() {
                             ],
                             { cancelable: false },
                         );
+                        setChanged(!change);
                     } else alert('Couldnt add todo Failed');
                 },
             );
